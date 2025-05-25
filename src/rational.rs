@@ -58,6 +58,7 @@ impl Rational{
 
         
     }
+    //not added test yet
     pub fn continued_fraction(&self) -> (usize, [i64; 64]) {
         const MAX_STEPS: usize = 64;
         let mut quotients = [0i64; MAX_STEPS];
