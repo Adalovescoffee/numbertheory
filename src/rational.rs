@@ -8,20 +8,21 @@ use std::{fmt,cmp::Ordering, ops::{Add, Div, Mul, Neg, Sub}};
 
 
 // gcd implementation! 
-fn gcd(mut a:i64, mut b:i64)-> i64 {
+fn gcd(mut a:i64, mut b:i64)-> (i64,usize) {
+    let mut steps : usize = 0 ; 
     while b!=0 {
         let temp = b ;
         b = a%b ;
         a = temp;
-
+        len = len+1 
     }
-    a.abs()
+    (a.abs(),len)
 }
 #[derive(Clone,Copy,Debug)]
 struct Rational{
     numerator: i64, 
     denominator: i64,
-
+    size:usize, //length of the gcd algo 
 
 
 }
@@ -35,16 +36,17 @@ impl Rational{
         
         else{
             
-            let gcd = gcd(numerator,denominator);
+            let (gcd,size) = gcd(numerator,denominator);
+            
             let mut newnum = numerator/gcd;
             let mut newden = denominator/gcd;
             if newden < 0 {
                 newden = - newden;
                 newnum = -newnum;
-                Rational{numerator:newnum, denominator:newden}
+                Rational{numerator:newnum, denominator:newden,size}
             }
             else{
-                Rational{numerator:newnum, denominator:newden}
+                Rational{numerator:newnum, denominator:newden,size}
             }
         }
 
@@ -130,10 +132,15 @@ impl Div for Rational {
 
 
 }
+
+//continued fraction implementation 
+// since we're working on fractions for now (this will change) i can just have denom to be the size of my array 
+//fn continuedfraction(r::Rational)->
 fn main() {
     let a = Rational::new(2,6);
     let b = Rational::new(3,-39);
     println!("{}",a/b);
+
 }
 #[cfg(test)]
 mod tests {
