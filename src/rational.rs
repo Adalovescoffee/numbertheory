@@ -26,6 +26,7 @@ pub struct Rational{
 
 
 }
+
 impl Rational{
     // as we know we should have the denominator to be different than 0 
    pub fn new(numerator:i64,denominator:i64)->Self{
@@ -34,29 +35,49 @@ impl Rational{
 
         }
         
-        else{
+        
             
-            let (gcd,size) = gcd(numerator,denominator);
+        let (gcd,size) = gcd(numerator,denominator);
             
-            let mut newnum = numerator/gcd;
-            let mut newden = denominator/gcd;
-            if newden < 0 {
-                newden = - newden;
-                newnum = -newnum;
-                Rational{numerator:newnum, denominator:newden,size}
-            }
-            else{
-                Rational{numerator:newnum, denominator:newden,size}
-            }
+        let mut newnum = numerator/gcd;
+        let mut newden = denominator/gcd;
+        if newden < 0 {
+            newden = - newden;
+            newnum = -newnum;
+            
+        }
+            
+        Rational{numerator:newnum, denominator:newden,size}
+            
         }
 
     
-
+    pub fn size(&self) ->usize {
+        self.size
+    
 
         
     }
-    
+    pub fn continued_fraction(&self) -> (usize, [i64; 64]) {
+        const MAX_STEPS: usize = 64;
+        let mut quotients = [0i64; MAX_STEPS];
+        let mut a = self.numerator;
+        let mut b = self.denominator;
+        let mut count = 0;
+
+        while b != 0 && count < MAX_STEPS {
+            quotients[count] = a / b;
+            let r = a % b;
+            a = b;
+            b = r;
+            count += 1;
+        }
+
+        (count, quotients)
+    }
 }
+ 
+
 
 impl fmt::Display for Rational {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -136,6 +157,9 @@ impl Div for Rational {
 //continued fraction implementation 
 // since we're working on fractions for now (this will change) i can just have denom to be the size of my array 
 //fn continuedfraction(r::Rational)->
+
+
+
 fn main() {
     let a = Rational::new(2,6);
     let b = Rational::new(3,-39);
