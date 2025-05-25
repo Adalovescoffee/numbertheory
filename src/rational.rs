@@ -14,12 +14,12 @@ fn gcd(mut a:i64, mut b:i64)-> (i64,usize) {
         let temp = b ;
         b = a%b ;
         a = temp;
-        len = len+1 
+        steps = steps+1 
     }
-    (a.abs(),len)
+    (a.abs(),steps)
 }
 #[derive(Clone,Copy,Debug)]
-struct Rational{
+pub struct Rational{
     numerator: i64, 
     denominator: i64,
     size:usize, //length of the gcd algo 
@@ -155,19 +155,19 @@ mod tests {
     #[test]
     fn test_gcdcase1(){
 
-        assert_eq!(gcd(8,12),4);
+        assert_eq!(gcd(8,12).0,4);
     }
     //0 case 
     #[test]
     fn test_gcdcase2(){
 
-        assert_eq!(gcd(8,0),8);
+        assert_eq!(gcd(8,0).0,8);
     }
     // negative version i know this works btw :p    
     #[test]
     fn test_gcdcase3(){
 
-        assert_eq!(gcd(-60,36),12);
+        assert_eq!(gcd(-60,36).0,12);
     }
     ////////////////////////////////////////////////////
     // 
